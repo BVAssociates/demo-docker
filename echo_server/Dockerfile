@@ -1,9 +1,14 @@
 FROM bvassociates/i386-golang
 MAINTAINER Vincent Bauchart <bauchart@bvassociates.fr>
 
+# Copy GO file into container
 ADD src/echo_server.go /tmp/
 
-EXPOSE 12321
+# Compilation
+RUN /usr/bin/go build -o /tmp/echo_server "/tmp/echo_server.go"
 
-# Use the runit init system.
-CMD ["/usr/bin/go", "run", "/tmp/echo_server.go","/etc/hostname"]
+
+# defaults params for execution
+
+EXPOSE 12321
+CMD ["/tmp/echo_server","/etc/hostname"]
