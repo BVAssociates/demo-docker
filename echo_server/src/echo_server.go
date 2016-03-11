@@ -12,16 +12,8 @@ func echo(s net.Conn, i int, content string) {
         defer s.Close();
 
         fmt.Printf("%d: %v <-> %v\n", i, s.LocalAddr(), s.RemoteAddr())
-        b := bufio.NewReader(s)
-        for {
-                line, e := b.ReadBytes('\n')
-                if e != nil || len(line) <= 1 {
-                        break
-                }
-                remote_message := line[0:len(line)-1]
-                message := []byte(fmt.Sprintf("Hello %s, I am %s\n", remote_message, content))
-                s.Write(message)
-        }
+        message := []byte(fmt.Sprintf("Hello, I am %s\n", content))
+        s.Write(message)
         fmt.Printf("%d: closed\n", i)
 }
 
