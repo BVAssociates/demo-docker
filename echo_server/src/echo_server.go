@@ -19,24 +19,28 @@ func echo(s net.Conn, i int, content string) {
 
 func main() {
 
-	if len(os.Args) != 2 {
+    if len(os.Args) != 2 {
             log.Fatal(fmt.Sprintf("USAGE: %s /path/to/file", os.Args[0]))
-        }
+    }
 
-        file, errfile := os.Open(os.Args[1])
-	if errfile != nil {
+
+    file, errfile := os.Open(os.Args[1])
+    defer file.Close()
+
+    if errfile != nil {
             log.Fatal(errfile)
-        }
+    }
 
-	bf := bufio.NewReader(file)
-	content_bytes, isPrefix, errbf := bf.ReadLine()
+    bf := bufio.NewReader(file)
+    content_bytes, isPrefix, errbf := bf.ReadLine()
         if errbf != nil {
              log.Fatal(errbf)
         }
         if isPrefix {
-        } 
+            // Take the money!
+        }
 
-	content := string(content_bytes)
+    content := string(content_bytes)
 
         fmt.Printf("I will answer %s to all requests", content)
 
