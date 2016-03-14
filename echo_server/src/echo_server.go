@@ -19,7 +19,7 @@ func echo(s net.Conn, i int, content string) {
 
 func main() {
 
-	if len(os.Args) != 2 {
+	if len(os.Args) < 2 {
 		log.Fatal(fmt.Sprintf("USAGE: %s /path/to/file [port]", os.Args[0]))
 	}
 
@@ -43,11 +43,16 @@ func main() {
 
 	fmt.Printf("I will answer %s to all requests", content)
 
-	l, e := net.Listen("tcp", ":12321")
+	port := "12321"
+	if len(os.Args) == 3 {
+		port = os.Args[2]
+	}
+
+	l, e := net.Listen("tcp", ":"+port)
 	if e != nil {
 		log.Fatal(e)
 	}
-	fmt.Printf("%v: listenning to 12321\n", l.Addr())
+	fmt.Printf("%v: listenning to %s\n", l.Addr(), port)
 	for i := 0; e == nil; i++ {
 		var s net.Conn
 		s, e = l.Accept()
