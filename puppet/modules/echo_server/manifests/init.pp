@@ -27,6 +27,13 @@ class echo_server (
     $echo_message = '',
 ) {
 
+    service { 'echo_server':
+        ensure => running,
+        enable => true,
+        require => [ File['/etc/init.d/echo_server'],
+                     File['/usr/local/bin/echo_server' ] ],
+    }
+
     file { '/usr/local/bin/echo_server':
         ensure => present,
         owner  => 'user1',
@@ -40,7 +47,18 @@ class echo_server (
         owner   => 'user1',
         group   => 'group1',
         mode    => '0755',
-        content => template('echo_server/echo_server.conf.erb')
+        content => template('echo_server/echo_server.conf.erb'),
+        require => File['/etc/init.d/echo_server'],
+    }
+
+    $command = "/usr/local/bin/echo_server"
+
+    file { '/etc/init.d/echo_server':
+        ensure  => present,
+        owner   => 'user1',
+        group   => 'group1',
+        mode    => '0755',
+        content => template('echo_server/init.erb')
     }
 
     user { 'user1':
