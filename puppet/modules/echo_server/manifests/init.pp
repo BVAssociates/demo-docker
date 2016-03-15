@@ -51,7 +51,7 @@ class echo_server (
         require => File['/etc/init.d/echo_server'],
     }
 
-    $command = "/usr/local/bin/echo_server"
+    $command = "/usr/local/bin/echo_server /etc/echo_server.conf"
 
     file { '/etc/init.d/echo_server':
         ensure  => present,
