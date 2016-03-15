@@ -28,10 +28,10 @@ class echo_server (
 ) {
 
     service { 'echo_server':
-        ensure => running,
-        enable => true,
-        require => [ File['/etc/init.d/echo_server'],
-                     File['/usr/local/bin/echo_server' ] ],
+        ensure    => running,
+        enable    => true,
+        subscribe => [ File['/etc/init.d/echo_server'],
+                       File['/usr/local/bin/echo_server' ] ],
     }
 
     file { '/usr/local/bin/echo_server':
