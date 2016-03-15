@@ -24,7 +24,7 @@
 # Copyright 2016 BV Associates
 #
 class echo_server (
-    $echo_message = '',
+    $echo_message = 'default message',
 ) {
 
     service { 'echo_server':
